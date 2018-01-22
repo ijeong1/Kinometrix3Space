@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Kinometrix3space</string>
+    <string-array name="BodyPart">
+        <item>Knee</item>
+        <item>Ankle</item>
+        <item>Shoulder</item>
+    </string-array>
+    <string-array name="ExerciseType">
+        <item>Flexion</item>
+        <item>Abduction</item>
+    </string-array>
+    <string-array name="ExerciseSide">
+        <item>Left</item>
+        <item>Center</item>
+        <item>Right</item>
+    </string-array>
+    <string name="title_activity_send_logs_to_google_drive">SendLogsToGoogleDriveActivity</string>
+</resources>
