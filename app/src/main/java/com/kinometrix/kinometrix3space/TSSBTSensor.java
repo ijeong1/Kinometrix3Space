@@ -18,6 +18,7 @@ import android.os.Handler;
 import android.util.Log;
 
 public class TSSBTSensor{
+    public boolean is_streaming;
     private BluetoothSocket btSocket = null;
     private OutputStream BTOutStream = null;
     private InputStream BTInStream = null;
@@ -132,17 +133,15 @@ public class TSSBTSensor{
         int amnt_read = 0;
         while (amnt_read < amnt)
         {
-
             try {
                 amnt_read += BTInStream.read(response, amnt_read, amnt - amnt_read);
             }
             catch (IOException e) {
-                Log.d("TSSBTSensor:read()", "IOException e: "+e.getMessage());
             }
-
         }
         return response;
     }
+
 
     public void close()
     {
@@ -244,11 +243,24 @@ public class TSSBTSensor{
 
     public void setTareCurrentOrient()
     {
-        Log.d("TSSBTSensor","setTareCurrentOrient");
-        call_lock.lock();
-        byte[] send_data = new byte[]{(byte)0x60};
-        write(send_data);
-        call_lock.unlock();
+        if (is_streaming)
+        {
+            stopStreaming();
+
+            call_lock.lock();
+            byte[] send_data = new byte[]{(byte)0x60};
+            write(send_data);
+            call_lock.unlock();
+
+            startStreaming();
+        }
+        else
+        {
+            call_lock.lock();
+            byte[] send_data = new byte[]{(byte) 0x60};
+            write(send_data);
+            call_lock.unlock();
+        }
     }
 
     public void setAxisDirections(String axis_order, boolean neg_x, boolean neg_y, boolean neg_z)
@@ -618,15 +630,28 @@ public class TSSBTSensor{
         byte[] send_data ={TSS_START_STREAMING};
         Log.d("TSSBTSensor","startStreaming");
         write(send_data);
+        is_streaming = true;
         call_lock.unlock();
     }
 
-    public void stopStreaming(){
+    public void stopStreaming()
+    {
         call_lock.lock();
-        byte[] send_data = {TSS_STOP_STREAMING};
-        Log.d("TSSBTSensor","stopStreaming");
+        byte[] send_data = new byte[]{(byte)0x56};
         write(send_data);
-        clearInputStream();
+        try
+        {
+            while( BTInStream.available() != 0)
+            {
+                BTInStream.skip(BTInStream.available());
+                Thread.sleep(1000);
+            }
+        }
+        catch(Exception e)
+        {
+            return;
+        }
+        is_streaming = false;
         call_lock.unlock();
     }
 

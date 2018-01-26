@@ -8,6 +8,7 @@
     <string-array name="ExerciseType">
         <item>Flexion</item>
         <item>Abduction</item>
+        <item>Extension</item>
     </string-array>
     <string-array name="ExerciseSide">
         <item>Left</item>

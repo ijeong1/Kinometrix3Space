@@ -41,6 +41,6 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 
-    //MPAndroidChart
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    //graphview
+    compile 'com.jjoe64:graphview:4.2.1'
 }

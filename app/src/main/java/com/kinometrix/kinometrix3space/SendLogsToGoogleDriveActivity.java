@@ -156,6 +156,7 @@ public class SendLogsToGoogleDriveActivity extends AppCompatActivity implements 
                                 switch (which) {
                                     case 0:
                                         // Open File
+                                        /*
                                         Intent intent = new Intent();
                                         intent.setAction(android.content.Intent.ACTION_VIEW);
                                         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -163,6 +164,9 @@ public class SendLogsToGoogleDriveActivity extends AppCompatActivity implements 
                                                 BuildConfig.APPLICATION_ID, clickedFile);
                                         intent.setDataAndType(uri, getMimeType(clickedFile.getName()));
                                         startActivity(intent);
+
+                                        */
+                                        Toast.makeText(getApplicationContext(), "This function is not supported", Toast.LENGTH_SHORT).show();
                                         break;
 
                                     case 1:
@@ -221,6 +225,7 @@ public class SendLogsToGoogleDriveActivity extends AppCompatActivity implements 
         if (mGoogleApiClient != null) {
             mGoogleApiClient.disconnect();
         }
+        mProgress.dismiss();
         super.onPause();
     }
 
@@ -598,5 +603,4 @@ public class SendLogsToGoogleDriveActivity extends AppCompatActivity implements 
             }
         }
     }
-
 }
